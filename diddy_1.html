@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P Diddy's Party - Baby Oil Clicker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff; /* White background */
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #000000; /* Changed to black */
+        }
+
+        #game-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+            border: 2px solid #000000; /* Changed border to black */
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #baby-oil-display {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #baby-oil-image {
+            width: 200px; /* Adjust size as needed */
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        button {
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        /* Rainbow button colors */
+        #upgrade-button-1 {
+            background-color: #ff0000; /* Red */
+        }
+
+        #upgrade-button-2 {
+            background-color: #ff7f00; /* Orange */
+        }
+
+        #upgrade-button-3 {
+            background-color: #ffff00; /* Yellow */
+            color: #000; /* Black text for readability */
+        }
+
+        #upgrade-button-4 {
+            background-color: #00ff00; /* Green */
+            color: #000000; /* Dark text for readability */
+        }
+
+        #upgrade-button-5 {
+            background-color: #00ffff; /* Cyan */
+            color: #000000; /* Dark text for readability */
+        }
+
+        #upgrade-button-6 {
+            background-color: #0000ff; /* Blue */
+        }
+
+        #upgrade-button-7 {
+            background-color: #4b0082; /* Indigo */
+        }
+
+        #upgrade-button-8 {
+            background-color: #9400d3; /* Violet */
+        }
+
+        #upgrade-button-9 {
+            background-color: #1e90ff; /* Light Blue */
+        }
+
+        #upgrade-button-10 {
+            background-color: #ff69b4; /* Pink */
+        }
+
+        #upgrade-container {
+            margin-top: 20px;
+        }
+
+        #upgrade-container div {
+            margin: 10px 0;
+        }
+
+        #end-message {
+            font-size: 24px;
+            color: #ff69b4; /* Highlight the message in a fun color */
+            margin-top: 30px;
+            display: none; /* Initially hidden */
+        }
+
+        #final-image {
+            width: 300px;
+            margin-top: 20px;
+            display: none; /* Hidden until the final upgrade is purchased */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #final-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>P Diddy's Party</h1>
+    <div id="game-container">
+        <div id="baby-oil-display">Baby Oil: 0</div>
+
+        <img id="baby-oil-image" src="https://i5.walmartimages.com/asr/4705466d-c194-473c-9190-bfa0b44c9cf0.e1092b3c6879cd0ebf549364739b63c7.jpeg" alt="Baby Oil" />
+
+        <div id="upgrade-container">
+            <h3>Upgrades:</h3>
+            <div>
+                <button id="upgrade-button-1">Notorious B.I.G. (Cost: 100 Baby Oil, +0.5 per click, +0.25 per second)</button>
+            </div>
+            <div>
+                <button id="upgrade-button-2">Mary J. Blige (Cost: 400 Baby Oil, +2.5 per click, +1.5 per second)</button>
+            </div>
+            <div>
+                <button id="upgrade-button-3">Justin Bieber (Cost: 1000 Baby Oil, +5 per click, +3 per second)</button>
+            </div>
+            <div>
+                <button id="upgrade-button-4">Meek Mill (Cost: 2000 Baby Oil, +10 per click, +5 per second)</button>
+            </div>
+            <div>
+                <button id="upgrade-button-5">Odell Beckham Jr. (Cost: 5000 Baby Oil, +20 per click, +10 per second)</button>
+            </div>
+            <div>
+                <button id="upgrade-button-6">Leonardo DiCaprio (Cost: 10000 Baby Oil, +40 per click, +20 per second)</button>
+            </div>
+            <div>
+                <button id="upgrade-button-7">Kanye West (Cost: 20000 Baby Oil, +80 per click, +40 per second)</button>
+            </div>
+            <div>
+                <button id="upgrade-button-8">Jay-Z (Cost: 40000 Baby Oil, +160 per click, +80 per second)</button>
+            </div>
+            <div>
+                <button id="upgrade-button-9">Beyoncé (Cost: 100000 Baby Oil, +320 per click, +160 per second)</button>
+            </div>
+            <div>
+                <button id="upgrade-button-10">P Diddy (Cost: 200000 Baby Oil, +640 per click, +320 per second)</button>
+            </div>
+        </div>
+
+        <!-- Hidden final section with message and image -->
+        <div id="final-section">
+            <div id="end-message">Welcome to the freak off!</div>
+            <img id="final-image" src="https://www.sickchirpse.com/wp-content/uploads/2017/11/PDiddy.jpg" alt="P Diddy">
+        </div>
+    </div>
+
+    <script>
+        let babyOil = 0;
+        let oilPerClick = 1; // Starting clicks at 1
+        let oilPerSecond = 0;
+        let secretCode = ""; // To store the secret code input
+
+        const babyOilDisplay = document.getElementById('baby-oil-display');
+        const babyOilImage = document.getElementById('baby-oil-image');
+        const endMessage = document.getElementById('end-message'); // Final message element
+        const finalImage = document.getElementById('final-image'); // Final image element
+
+        const upgrades = [
+            { button: document.getElementById('upgrade-button-1'), cost: 100, clickIncrease: 0.5, autoIncrease: 0.25 },
+            { button: document.getElementById('upgrade-button-2'), cost: 400, clickIncrease: 2.5, autoIncrease: 1.5 },
+            { button: document.getElementById('upgrade-button-3'), cost: 1000, clickIncrease: 5, autoIncrease: 3 },
+            { button: document.getElementById('upgrade-button-4'), cost: 2000, clickIncrease: 10, autoIncrease: 5 },
+            { button: document.getElementById('upgrade-button-5'), cost: 5000, clickIncrease: 20, autoIncrease: 10 },
+            { button: document.getElementById('upgrade-button-6'), cost: 10000, clickIncrease: 40, autoIncrease: 20 },
+            { button: document.getElementById('upgrade-button-7'), cost: 20000, clickIncrease: 80, autoIncrease: 40 },
+            { button: document.getElementById('upgrade-button-8'), cost: 40000, clickIncrease: 160, autoIncrease: 80 },
+            { button: document.getElementById('upgrade-button-9'), cost: 100000, clickIncrease: 320, autoIncrease: 160 },
+            { button: document.getElementById('upgrade-button-10'), cost: 200000, clickIncrease: 640, autoIncrease: 320 },
+        ];
+
+        // Function to update the display
+        function updateDisplay() {
+            babyOilDisplay.textContent = `Baby Oil: ${Math.floor(babyOil)}`; // Use Math.floor for whole number display
+        }
+
+        // Function to handle clicking on the Baby Oil image
+        babyOilImage.addEventListener('click', () => {
+            babyOil += oilPerClick;
+            updateDisplay();
+        });
+
+        // Function to handle buying upgrades
+        upgrades.forEach((upgrade, index) => {
+            upgrade.button.addEventListener('click', () => {
+                if (babyOil >= upgrade.cost) {
+                    babyOil -= upgrade.cost;
+                    oilPerClick += upgrade.clickIncrease;
+                    oilPerSecond += upgrade.autoIncrease;
+                    upgrade.cost *= 2; // Increase cost for future purchases
+                    upgrade.button.style.display = 'none'; // Hide the button after purchase
+                    if (index === upgrades.length - 1) {
+                        endMessage.style.display = 'block'; // Show the final message
+                        finalImage.style.display = 'block'; // Show the final image (centered)
+                    }
+                    updateDisplay();
+                }
+            });
+        });
+
+        // Function to handle automatic Baby Oil generation
+        setInterval(() => {
+            babyOil += oilPerSecond;
+            updateDisplay();
+        }, 1000); // 1000ms = 1 second
+
+        // Secret code functionality: Grants 1,000,000,000 baby oil if "free diddy" is typed
+        document.addEventListener('keydown', (event) => {
+            secretCode += event.key.toLowerCase();
+            if (secretCode.includes('freediddy')) {
+                babyOil += 1000000000;
+                secretCode = ""; // Reset code after activation
+                updateDisplay();
+            }
+        });
+
+        updateDisplay();
+    </script>
+
+</body>
+</html>
+
+
+
